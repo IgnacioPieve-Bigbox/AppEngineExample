@@ -1,0 +1,23 @@
+# Version de Python a usar (3.9)
+runtime: python39
+
+# Comando para iniciar el server de FastAPI
+entrypoint: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
+
+# Tipo de instancia de App Engine
+# F1: instancia más básica y económica (600MHz, 256MB RAM)
+# Otras opciones: F2, F4, etc. para más recursos
+instance_class: F1
+
+# Configuración del escalado automático
+automatic_scaling:
+  # Define el uso de CPU objetivo para escalar (65%)
+  # Si el uso supera este valor, se crearán nuevas instancias
+  target_cpu_utilization: 0.65
+  
+  # Número mínimo de instancias que siempre estarán corriendo
+  # (No queremos quedarnos sin instancias)
+  min_instances: 1
+  
+  # Número máximo de instancias que se pueden crear
+  max_instances: 2 
